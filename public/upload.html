@@ -1,0 +1,38 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Upload - Orcus</title>
+<link rel="stylesheet" href="/css/style.css"/>
+</head><body>
+  <main>
+    <h1>Enviar material</h1>
+    <form id="form" enctype="multipart/form-data">
+      <label>Título<input name="title" required/></label>
+      <label>Autor<input name="author" /></label>
+      <label>Descrição<textarea name="description"></textarea></label>
+      <label>Tags (vírgula)<input name="tags"/></label>
+      <label>Arquivo (pdf, epub, docx)<input type="file" name="file" /></label>
+      <label>OU Link externo<input name="link" placeholder="https://..."/></label>
+      <button>Enviar</button>
+    </form>
+    <div id="msg"></div>
+  </main>
+  <script>
+    function toFormData(form){ const fd = new FormData(); for(const el of form.elements){ if(!el.name) continue; if(el.type==='file') fd.append(el.name, el.files[0]); else fd.append(el.name, el.value); } return fd; }
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = toFormData(e.target);
+      const file = fd.get('file');
+      if (file && file.size) {
+        const res = await fetch('/api/upload', { method: 'POST', body: fd });
+        const j = await res.json();
+        document.getElementById('msg').innerText = res.ok ? 'Enviado! id=' + j.id : 'Erro: ' + JSON.stringify(j);
+      } else {
+        const body = { title: fd.get('title'), author: fd.get('author'), description: fd.get('description'), tags: fd.get('tags'), link: fd.get('link') };
+        const res = await fetch('/api/books', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body) });
+        const j = await res.json();
+        document.getElementById('msg').innerText = res.ok ? 'Enviado! id=' + j.id : 'Erro: ' + JSON.stringify(j);
+      }
+    });
+  </script>
+</body></html>

@@ -1,0 +1,22 @@
+# netlify.toml
+[build]
+command = "npm run build"
+publish = "public"
+
+[dev]
+command = "npm run dev"
+port = 3000
+
+# Rewrite index para SPA (se precisar)
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+condition = {NOT = [{header = "Accept", value = "application/json"}]}
+
+# API proxy (se backend rodar em outro domínio)
+# [[redirects]]
+# from = "/api/*"
+# to = "https://seu-backend.com/api/:splat"
+# status = 200
+# force = true

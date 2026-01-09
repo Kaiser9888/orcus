@@ -1,0 +1,10 @@
+/* public/css/style.css */
+body{font-family:Inter,Arial,Helvetica,sans-serif;background:#f6f0e6;color:#222;margin:0;padding:0}
+.hero{background:linear-gradient(90deg,#efe6d8,#f6f0e6);padding:30px;text-align:center;border-bottom:4px solid #c59b53}
+h1{color:#6b1e1e;font-family:Georgia,serif}
+.subtitle{color:#3b2f2f}
+.search input{padding:8px 12px;width:60%;max-width:400px}
+.btn{display:inline-block;background:#c59b53;color:#fff;padding:8px 12px;border-radius:4px;text-decoration:none}
+.card{border:1px solid #e8e0cf;padding:12px;margin:12px;border-left:6px solid #c59b53}
+.ad-slot{border:2px dashed #c59b53;padding:12px;background:#fff;min-height:60px}
+main{padding:20px}

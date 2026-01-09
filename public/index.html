@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Orcus — Biblioteca</title>
+<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+  <header class="hero">
+    <h1>Orcus</h1>
+    <p class="subtitle">A biblioteca: grátis — tema: Império Romano / Alexandre</p>
+    <div class="search">
+      <input id="q" placeholder="Pesquisar livros, apostilas, autor..." />
+      <button id="btnSearch">Buscar</button>
+    </div>
+    <p><a href="/upload.html" class="btn">Enviar material</a></p>
+  </header>
+
+  <main id="results"></main>
+
+  <footer>© Orcus</footer>
+  <script src="/js/app.js"></script>
+  <script>
+    document.getElementById('btnSearch').addEventListener('click', doSearch);
+    async function doSearch(){
+      const q = document.getElementById('q').value;
+      const res = await fetch('/api/books?q=' + encodeURIComponent(q));
+      const list = await res.json();
+      const out = document.getElementById('results');
+      out.innerHTML = list.map(b => `
+        <article class="card">
+          <h3><a href="/book.html?id=${b.id}">${escapeHtml(b.title)}</a></h3>
+          <p>${escapeHtml(b.author||'')}</p>
+          <p>${escapeHtml((b.description||'').slice(0,200))}</p>
+          <p><a href="/i/${b.id}">Download</a></p>
+        </article>
+      `).join('') || '<p>Nenhum resultado</p>';
+    }
+    doSearch();
+  </script>
+</body>
+</html>

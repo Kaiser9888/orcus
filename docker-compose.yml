@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  orcus:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/app/data
+      - ./uploads:/app/uploads
+    environment:
+      - PORT=3000
+      - DATABASE_FILE=/app/data/orcus.sqlite
+      - UPLOAD_DIR=/app/uploads
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      - INTERSTITIAL_SECONDS=${INTERSTITIAL_SECONDS}
+      - MAX_UPLOAD_MB=${MAX_UPLOAD_MB}
+    restart: unless-stopped
